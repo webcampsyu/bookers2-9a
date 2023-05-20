@@ -27,9 +27,10 @@ class User < ApplicationRecord
   #通じて繋がっていることを表現(followerテーブルとfollowedテーブルのつながり)
   #@user.架空のテーブル名と記述することでフォローorフォロワーの一覧を表示できる
   has_many :followings, through: :relationships, source: :followed
- 
+  #followingsは中間テーブル(relationships)を通じてfollowedモデルを取得できる
   
   has_many :followers, through: :reverse_of_relationships, source: :follower
+  #followersは中間テーブルと通じてfollowerモデルを取得できる
   
   validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 20 }
   validates :introduction, length: { maximum: 50 }
@@ -41,6 +42,7 @@ class User < ApplicationRecord
  
  
   #コントローラで使うメソッドを記述
+  
   #フォローしたときの処理
   def follow(user_id)
     relationships.create(followed_id: user_id)
@@ -53,7 +55,7 @@ class User < ApplicationRecord
   
   #フォローしているか判定
   def following?(user)
-    followigns.include?(user)
+    followings.include?(user)
   end 
 
 end

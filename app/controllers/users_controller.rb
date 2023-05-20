@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @book = Book.new
+    #一覧ページでフォロー数・フォロワー数を表示するための記述
+    #@followings = user.followings
+    #@followers = user.followers
   end
   
   def edit
@@ -24,6 +27,20 @@ class UsersController < ApplicationController
 
       render :edit
     end
+    
+    #フォロー一覧ページ用のコントローラ
+    def followed
+      user = User.find(params[:id])
+      @user = user.followed_user.page(params[:page]).per(3).reverse_order
+      #reverse_orderは「取得した値を逆順に並び替える」
+    end 
+    
+    #フォロワー一覧ページ用のコントローラ
+    def follower
+      user = User.find(params[:id])
+       @user = user.follower_user.page(params[:page]).per(3).reverse_order
+    end 
+    
   end
 
   private
