@@ -1,0 +1,19 @@
+<!--ユーザーがサインイン済みかどうか判定する-->
+<% if user_signed_in? %>
+ <div class="search_form">
+   <!--form_withで検索内容を作成したルーティングに送信する(url: search_path)-->
+   <%= form_with url: search_path, local: true, method: :get do |f| %>
+    <!--検索内容を[word]としてアクションに送る-->
+    <%= f.text_field :word %>
+    <!--複数のモデルを検索できるようにするため、[Userモデル」と[Bookモデル]を
+        選択できるようにする
+        選択したモデルを[range]としてアクションに送る-->
+    <%= f.select :range, options_for_select([['User'],['Book']]) %>
+    <!--検索手法を定義
+        カンマ区切りにすることで複数定義できる
+        選択した検索手法を[search]としてアクションに送る-->
+    <%= f.select :search, options_for_select([["完全一致","perfect_match"],["前方一致","forward_match"],["後方一致","backward_match"],["部分一致","partial_match"]]) %>
+    <%= f.submit "検索", class: "btn btn-primary" %>
+   <% end %>
+ </div>
+<% end %>

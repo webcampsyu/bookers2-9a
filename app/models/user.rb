@@ -57,5 +57,35 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end 
+  
+  #検索方法分岐
+  #nameは検索対象であるusersテーブル内のカラム名
+  #検索フォームからsearchによって送られてきた内容を条件分岐させる
+  #whereメソッドを用い、データベースから該当データを取得し、変数を代入
+  #whereメソッドは、「テーブル内の条件に一致したレコードを配列の形で取得できるメソッド
+  #whereのLIKE句を使ったあいまい検索の構文
+  #モデルクラス.where("列名　LIKE ?"" "%値%) 
+  def self.looks(search, word)
+    #条件式1
+    if search == "perfect_match"
+    #処理1
+    @user = User.where("name LIKE?","#{word}")
+    #条件式2
+    elsif search == "forward_match"
+      #処理2
+      @user = User.where("name LIKE?","#{word}%")
+    #条件式3
+    elsif search == "backward_match"
+      #処理3
+      @user = User.where("name LIKE?","%#{word}")
+    #条件式4
+    elseif search == "partial_match"
+      #処理4
+      @user = User.where("name LIKE?","%#{word}%")
+    else 
+      @user = User.all
+    end 
+  end 
+  
 
 end
