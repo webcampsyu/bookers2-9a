@@ -1,0 +1,19 @@
+<!--いいね機能を非同期通信にする
+    form系のヘルパーメソッド[remoteオプション]はremote: trueとすることで
+    Ajaxを簡単に実装することが出来る
+    remote: trueを記述することで、HTMLリクエストではなく、JavaScriptのリクエスト
+    がfovoritesコントローラに送られる
+    HTTPリクエストの場合・・・データベースにいいねを保存or削除し
+    画面にリダイレクトする(ページを読み込む)
+    JavaScriptリクエストの場合・・・データベースにいいねを保存or削除し
+    JavaScriptを使って、いいね部分のみ更新する(ページ読み込みなし)
+    favoritesコントローラのリダイレクト先を削除する必要がある-->
+<% if book.favorited_by?(current_user) %>
+  <%= link_to book_favorites_path(book), method: :delete, remote: true do %>
+   ♥<%= book.favorites.count %>
+  <% end %>
+<% else %>
+  <%= link_to book_favorites_path(book), method: :post, remote: true do %>
+   ♡<%= book.favorites.count %> 
+  <% end %>
+<% end %>
