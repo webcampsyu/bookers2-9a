@@ -1,0 +1,3 @@
+$("#book-comments").html("<%= j(render 'book_comments/comment', {book: @book}) %>");
+//コメント投稿フォームを空にする記述
+$("#book_comment_comment").val('')

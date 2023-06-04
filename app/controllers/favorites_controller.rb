@@ -1,9 +1,10 @@
 class FavoritesController < ApplicationController
   
   def create
-    @book = Book.find(params[:book_id])
-    favorite = current_user.favorites.new(book_id: @book.id)
+    book = Book.find(params[:book_id])
+    favorite = current_user.favorites.new(book_id: book.id)
     favorite.save
+    @book = favorite.book
     #非同期通信のため、いいね保存後のリダイレクト先を削除
     #redirect_to books_path
   end
