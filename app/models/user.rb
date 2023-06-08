@@ -32,6 +32,8 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_of_relationships, source: :follower
   #followersは中間テーブルと通じてfollowerモデルを取得できる
   
+  has_many :view_counts, dependent: :destroy
+  
   validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 20 }
   validates :introduction, length: { maximum: 50 }
   

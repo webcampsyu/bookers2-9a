@@ -5,13 +5,16 @@ class BooksController < ApplicationController
     @books = Book.new
     @user = @book.user
     @book_comment = BookComment.new
+    @book_detail = Book.find(params[:id])
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+      current_user.view_counts.create(book_id: @book_detail.id)
+    end 
   end
 
   def index
     @book = Book.new
     @books = Book.all
     @user = User.find(current_user.id)
-    
   end
 
   def create
