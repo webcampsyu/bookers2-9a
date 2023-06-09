@@ -15,6 +15,8 @@ class BooksController < ApplicationController
     @book = Book.new
     @books = Book.all
     @user = User.find(current_user.id)
+    @book_detail = Book.all
+   
   end
 
   def create
